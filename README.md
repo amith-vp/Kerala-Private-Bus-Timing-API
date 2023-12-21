@@ -1,4 +1,4 @@
-#
+# ENDPOINT
 
 ## GET /api/v1/schedules
 
