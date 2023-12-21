@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  schedule: one
+  name: MyString
+  arrival_time: MyString
+  departure_time: MyString
+
+two:
+  schedule: two
+  name: MyString
+  arrival_time: MyString
+  departure_time: MyString
