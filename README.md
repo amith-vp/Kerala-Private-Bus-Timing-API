@@ -1,4 +1,4 @@
-#
+# ENDPOINT
 
 ## GET /api/v1/schedules
 
@@ -56,3 +56,61 @@ Response:
   // More Schedules
 ]
 ```
+
+# Installation Guide
+
+Follow the steps below to install and setup the API:
+
+## Step 1: Clone the Repository
+
+First, clone the repository to your local machine. You can do this by running the following command in your terminal:
+
+```bash
+git clone https://github.com/amith-vp/Kerala-Private-Bus-Timing-API
+```
+
+
+## Step 2: Setup the Database
+
+The application uses default DB SQLite3 of Rails,PostgreSQL can also be used.
+
+## Step 3: Database Migration
+
+Next, migrate the database by running the following command in your terminal:
+
+```bash
+rails db:migrate
+```
+
+## Step 4: Add JSON File
+
+Download the required JSON file from [amith-vp/Kerala-Private-Bus-Timing](https://github.com/amith-vp/Kerala-Private-Bus-Timing) and paste it in the `db/data.json` directory of your cloned repository.
+
+## Step 5: Seed the Database
+
+Seed the database by running the following command in your terminal:
+
+```bash
+rails db:seed
+```
+
+This process might take around 2-3 minutes.
+
+## Step 6: Start the Server
+
+Finally, start the server by running the following command in your terminal:
+
+```bash
+rails s
+```
+
+Now, you should be able to access the application on your local machine.
+
+## Step 7: Access the API
+
+You can access the API from the following URL:
+
+```
+http://localhost:3000/api/v1/schedule
+```
+
