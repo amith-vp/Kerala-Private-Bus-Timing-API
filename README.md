@@ -61,6 +61,10 @@ Response:
 
 Follow the steps below to install and setup the API:
 
+# Prerequisites
+
+You need to have Ruby on Rails installed on your machine. If you don't have it installed, you can follow the instructions on the [official Rails guide](https://guides.rubyonrails.org/getting_started.html#installing-rails) to install it.
+
 ## Step 1: Clone the Repository
 
 First, clone the repository to your local machine. You can do this by running the following command in your terminal:
