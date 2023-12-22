@@ -2,8 +2,8 @@ require 'time'
 
 class Api::V1::SchedulesController < ApplicationController
   def index
-    departure_station = params[:departure]
-    destination_station = params[:destination]
+    departure_station = params[:departure].upcase if params[:departure].present?
+    destination_station = params[:destination].upcase if params[:destination].present?
     time_param = params[:time]
     exclude_param = params[:restrict]
     time = time_param.present? ? Time.parse(time_param) : nil
@@ -11,7 +11,8 @@ class Api::V1::SchedulesController < ApplicationController
 
     if departure_station.present? && destination_station.present?
       # all schedules with both dep and dest
-      # if postgres use the query in below
+
+      # if postgres use the below query
       # schedules = Schedule.joins(:stations)
       #               .where(stations: { name: [departure_station, destination_station] })
       #               .select('schedules.*')
@@ -19,7 +20,7 @@ class Api::V1::SchedulesController < ApplicationController
       #               .having('COUNT(DISTINCT stations.name) = 2')
       #               .distinct 
       
-    # if sqlite use the query in below
+      # if sqlite use the below query
       schedules = Schedule.joins(:stations)
                           .where(stations: { name: [departure_station, destination_station] })
                           .group('schedules.id')
