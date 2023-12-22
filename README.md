@@ -81,7 +81,7 @@ If no bus is found with the provided vehicle number, a JSON object with an `erro
 
 Request:
 
-https://busapi.amithv.xyz/api/v1/test?vehicle_number=KL41A1251
+https://busapi.amithv.xyz/api/v1/search?vehicle_number=KL41A1251
 
 This will return the full route of the bus with the vehicle number "KL41A1251".
 
