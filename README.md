@@ -9,7 +9,7 @@ Returns a list of trips between two stations, optionally filtered by departure t
 - `departure` (required, string): The name of the departure station.
 - `destination` (required, string): The name of the destination station.
 - `time` (optional, string): The earliest departure time from the departure station, in 24-hour format (HH:MM). Only trips that depart after this time will be included.
-- `exclude` (optional, boolean): If true, stations before the departure station and after the destination station will be excluded.
+- `restrict` (optional, boolean): If true, stations before the departure station and after the destination station will be excluded.
 
 ### Response
 
