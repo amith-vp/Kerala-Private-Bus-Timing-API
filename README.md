@@ -57,6 +57,34 @@ Response:
 ]
 ```
 
+## GET /api/v1/search
+
+Returns the full route of a bus by searching its vehicle number.
+
+### Parameters
+
+- `vehicle_number` (required, string): The vehicle number of the bus. It can be provided with or without spaces.
+
+### Response
+
+A JSON array of routes. Each route is an object with the following properties:
+
+- `trip` (string): The trip identifier.
+- `stations` (array): An array of stations that the bus stops at. Each station is an object with the following properties:
+  - `station` (string): The name of the station.
+  - `arrivalTime` (string): The arrival time at the station, in 12-hour format.
+  - `departureTime` (string): The departure time from the station, in 24-hour format.
+
+If no bus is found with the provided vehicle number, a JSON object with an `error` property will be returned.
+
+### Example
+
+Request:
+
+https://busapi.amithv.xyz/api/v1/test?vehicle_number=KL41A1251
+
+This will return the full route of the bus with the vehicle number "KL41A1251".
+
 # Installation Guide
 
 Follow the steps below to install and setup the API:
