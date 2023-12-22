@@ -73,7 +73,7 @@ A JSON array of routes. Each route is an object with the following properties:
 - `stations` (array): An array of stations that the bus stops at. Each station is an object with the following properties:
   - `station` (string): The name of the station.
   - `arrivalTime` (string): The arrival time at the station, in 12-hour format.
-  - `departureTime` (string): The departure time from the station, in 24-hour format.
+  - `departureTime` (string): The departure time from the station, in 12-hour format.
 
 If no bus is found with the provided vehicle number, a JSON object with an `error` property will be returned.
 
