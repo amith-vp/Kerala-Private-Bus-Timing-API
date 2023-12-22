@@ -5,8 +5,10 @@ class Api::V1::SchedulesController < ApplicationController
     departure_station = params[:departure]
     destination_station = params[:destination]
     time_param = params[:time]
+    exclude_param = params[:restrict]
     time = time_param.present? ? Time.parse(time_param) : nil
-  
+    exclude = exclude_param.present? ? exclude_param.downcase == 'true' : false
+
     if departure_station.present? && destination_station.present?
       # all schedules with both dep and dest
       # if postgres use the query in below
@@ -51,6 +53,11 @@ class Api::V1::SchedulesController < ApplicationController
               }
             end
           }
+
+          # Exclude stations before departure and after destination if exclude parameter is true
+          if exclude
+            trip_data[:stations] = trip_data[:stations][departure_index..destination_index]
+          end
   
           trips << trip_data
         end
