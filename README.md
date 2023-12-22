@@ -115,6 +115,6 @@ Now, you should be able to access the application on your local machine.
 You can access the API from the following URL:
 
 ```
-http://localhost:3000/api/v1/schedule
+http://localhost:3000/api/v1/schedules?departure=ALUVA&destination=KAKKANAD
 ```
 
