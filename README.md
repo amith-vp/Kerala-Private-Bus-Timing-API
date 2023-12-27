@@ -101,6 +101,12 @@ First, clone the repository to your local machine. You can do this by running th
 git clone https://github.com/amith-vp/Kerala-Private-Bus-Timing-API
 ```
 
+## Step 1.5: Install Dependencies
+After cloning the repository, navigate to the project directory and run
+
+```bash
+bundle install
+```
 
 ## Step 2: Setup the Database
 
