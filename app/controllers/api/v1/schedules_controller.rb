@@ -2,45 +2,40 @@ require 'time'
 
 class Api::V1::SchedulesController < ApplicationController
   def index
-    departure_station = params[:departure].upcase if params[:departure].present?
-    destination_station = params[:destination].upcase if params[:destination].present?
-    time_param = params[:time]
-    exclude_param = params[:restrict]
-    time = time_param.present? ? Time.parse(time_param) : nil
-    exclude = exclude_param.present? ? exclude_param.downcase == 'true' : false
+    
+    # convert the dep and des station names to uppercase and replace underscores with spaces
+    departure_station = params[:departure]&.upcase&.gsub('_', ' ')
+    destination_station = params[:destination]&.upcase&.gsub('_', ' ')
+    
+    time = params[:time].present? ? Time.parse(params[:time]) : nil
+    exclude = params[:restrict]&.downcase == 'true'
 
-    if departure_station.present? && destination_station.present?
-      # all schedules with both dep and dest
-
-      # if postgres use the below query
-      # schedules = Schedule.joins(:stations)
-      #               .where(stations: { name: [departure_station, destination_station] })
-      #               .select('schedules.*')
-      #               .group('schedules.id')
-      #               .having('COUNT(DISTINCT stations.name) = 2')
-      #               .distinct 
-      
-      # if sqlite use the below query
+    # select all schedules that have the departure and destination stations
+    # and also starting with station name
+    # eg : if searching for pala it also return pala private stand , pala ksrtc stand, pala old stand 
+    
+    if departure_station && destination_station
       schedules = Schedule.joins(:stations)
-                          .where(stations: { name: [departure_station, destination_station] })
-                          .group('schedules.id')
-                          .having('COUNT(DISTINCT stations.name) = 2')
-                          .distinct
-                          .includes(:stations, route: :bus_schedule)  
-      trips = []
-      schedules.each do |schedule|
+                    .where("stations.name LIKE ? OR stations.name LIKE ? OR stations.name = ? OR stations.name = ?", "#{departure_station} %", "#{destination_station} %", "#{departure_station}", "#{destination_station}")
+                    .select('schedules.*')
+                    .group('schedules.id')
+                    .having('COUNT(DISTINCT stations.name) = 2')
+                    .distinct 
+      trips = schedules.map do |schedule|
         stations = schedule.stations.order(:id)
         station_names = stations.map(&:name)
 
-        #  check if dep station comes before dest station using index
-        departure_index = station_names.find_index(departure_station)
-        destination_index = station_names.find_index(destination_station)
+        # find the index of the departure and destination stations
+        departure_index = station_names.index { |name| name =~ /#{departure_station}/i }
+        destination_index = station_names.index { |name| name =~ /#{destination_station}/i }
+
+        # this is used to exclude return trip , if the user is searching for a trip from pala to kottayam
+        # it will exclude the trip from kottayam to pala (since database has both trips)
 
         if departure_index && destination_index && departure_index < destination_index
           departure_station_data = stations[departure_index]
           departure_time = Time.parse(departure_station_data.departure_time)
 
-          # optional time parameter
           next if time && departure_time < time
 
           trip_data = {
@@ -55,22 +50,18 @@ class Api::V1::SchedulesController < ApplicationController
             end
           }
 
-          # Exclude stations before departure and after destination if exclude parameter is true
-          if exclude
-            trip_data[:stations] = trip_data[:stations][departure_index..destination_index]
-          end
-  
-          trips << trip_data
+          trip_data[:stations] = trip_data[:stations][departure_index..destination_index] if exclude
+          trip_data
         end
-      end
-  
-      # sort based on dep time of dep station
+      end.compact
+
+      # sort the trips by departure time of the departure station
       sorted_trips = trips.sort_by do |trip|
-        time_str = trip[:stations].find { |station| station[:station] == departure_station }[:departureTime]
-        Time.parse(time_str) # 12-h am/pm format
+        time_str = trip[:stations].find { |station| station[:station] =~ /#{departure_station}/i }[:departureTime]
+        Time.parse(time_str)
       end
+
       render json: sorted_trips, status: :ok
-  
     else
       render json: { error: 'Departure and destination stations are required. ' }, status: :unprocessable_entity
     end
