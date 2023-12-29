@@ -1,6 +1,6 @@
 # ENDPOINT
 
-## GET /api/v1/schedules
+## GET /api/v1/schedules/:departure/:destination
 
 Returns a list of trips between two stations, optionally filtered by departure time and optionally excluding stations before the departure station and after the destination station.
 
@@ -26,7 +26,7 @@ A JSON array of trips. Each trip is an object with the following properties:
 
 Request:
 
-https://busapi.amithv.xyz/api/v1/schedules?departure=HIGH%20COURT%20JUNCTION&destination=ERNAKULAM%20SOUTH&time=12:00
+https://busapi.amithv.xyz/api/v1/schedules/high_court_junction/ernakulam_south&time=12:00
 
 Response:
 
@@ -149,6 +149,6 @@ Now, you should be able to access the application on your local machine.
 You can access the API from the following URL:
 
 ```
-http://localhost:3000/api/v1/schedules?departure=ALUVA&destination=KAKKANAD
+http://localhost:3000/api/v1/schedules/aluva/kakkanad
 ```
 
