@@ -1,4 +1,6 @@
-# ENDPOINT
+# Kerala Private Bus Timing / Schedule -API
+
+Dataset - https://github.com/amith-vp/Kerala-Private-Bus-Timing (Converted RTI Detailing published by MVD)
 
 ## GET /api/v1/schedules/:departure/:destination
 
