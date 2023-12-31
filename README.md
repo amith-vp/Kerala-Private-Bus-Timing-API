@@ -29,6 +29,7 @@ A JSON array of trips. Each trip is an object with the following properties:
 Request:
 
 https://busapi.amithv.xyz/api/v1/schedules?departure=high+court+junction&destination=ernakulam+south&time=12:00
+
 Response:
 
 ```json
