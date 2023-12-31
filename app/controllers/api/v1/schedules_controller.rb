@@ -4,8 +4,8 @@ class Api::V1::SchedulesController < ApplicationController
   def index
     
     # convert the dep and des station names to uppercase and replace underscores with spaces
-    departure_station = params[:departure]&.upcase&.gsub('_', ' ')
-    destination_station = params[:destination]&.upcase&.gsub('_', ' ')
+    departure_station = params[:departure]&.upcase
+    destination_station = params[:destination]&.upcase
     
     time = params[:time].present? ? Time.parse(params[:time]) : nil
     exclude = params[:restrict]&.downcase == 'true'
